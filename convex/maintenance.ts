@@ -67,3 +67,30 @@ export const updateStatus = mutation({
     return { enabled: args.enabled, message };
   },
 });
+
+// The public UI may submit the maintenance code, but the code itself is checked
+// only on the server. Configure OSINCT_MAINTENANCE_CODE in Convex environment.
+export const enableByCode = mutation({
+  args: { code: v.string() },
+  returns: v.object({ enabled: v.boolean(), message: v.string() }),
+  handler: async (ctx, args) => {
+    const configuredCode = process.env.OSINCT_MAINTENANCE_CODE;
+    if (!configuredCode || args.code !== configuredCode) {
+      throw new ConvexError("Invalid maintenance code.");
+    }
+
+    const message = DEFAULT_MESSAGE;
+    const current = await ctx.db
+      .query("appSettings")
+      .withIndex("by_key", (q) => q.eq("key", "maintenance"))
+      .unique();
+
+    if (current) {
+      await ctx.db.patch(current._id, { enabled: true, message });
+    } else {
+      await ctx.db.insert("appSettings", { key: "maintenance", enabled: true, message });
+    }
+
+    return { enabled: true, message };
+  },
+});

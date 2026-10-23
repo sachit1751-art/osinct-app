@@ -11,7 +11,6 @@
 import type * as auth from "../auth.js";
 import type * as http from "../http.js";
 import type * as maintenance from "../maintenance.js";
-import type * as search from "../search.js";
 
 import type {
   ApiFromModules,
@@ -23,7 +22,6 @@ declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   http: typeof http;
   maintenance: typeof maintenance;
-  search: typeof search;
 }>;
 
 /**

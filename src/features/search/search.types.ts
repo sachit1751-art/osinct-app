@@ -1,24 +1,11 @@
-export type SearchMode = 'phone' | 'identity'
-
-export type SearchRecord = {
-  id: string
-  title: string
-  category: string
-  status: string
-  updatedAt: string
-  description: string
-  owner: string
-  region: string
-}
-
 export type SearchState =
   | { status: 'idle' }
-  | { status: 'loading'; mode: SearchMode }
-  | { status: 'success'; records: SearchRecord[]; mode: SearchMode; query: string }
-  | { status: 'empty'; mode: SearchMode; query: string }
-  | { status: 'error'; message: string; retryable: boolean; mode: SearchMode; query: string; diagnostic?: string }
+  | { status: 'loading' }
+  | { status: 'success'; response: unknown; query: string }
+  | { status: 'empty'; query: string }
+  | { status: 'error'; message: string; retryable: boolean; query: string; diagnostic?: string }
 
-export type SearchErrorCode = 'invalid_input' | 'live_disabled' | 'timeout' | 'network' | 'http' | 'invalid_json' | 'invalid_response' | 'aborted'
+export type SearchErrorCode = 'invalid_input' | 'live_disabled' | 'timeout' | 'network' | 'http' | 'invalid_json' | 'aborted'
 
 export class SearchError extends Error {
   readonly code: SearchErrorCode
@@ -37,13 +24,11 @@ export class SearchError extends Error {
 export type HttpAdapterConfig = {
   enabled: boolean
   baseUrl: string
-  phoneRoute: string
-  identityRoute: string
+  route: string
   queryParameter: string
   timeoutMs: number
 }
 
 export type SearchServiceConfig = {
-  adapter: 'mock' | 'http'
   http: HttpAdapterConfig
 }
