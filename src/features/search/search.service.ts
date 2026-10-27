@@ -13,12 +13,21 @@ export function createSearchService(config: SearchServiceConfig, fetchImpl?: typ
 }
 
 export function getSearchServiceConfig(env: Record<string, string | boolean | undefined>): SearchServiceConfig {
+  let baseUrl = typeof env.VITE_API_BASE_URL === 'string' ? env.VITE_API_BASE_URL.trim() : ''
+  if (typeof window !== 'undefined') {
+    if (!baseUrl) {
+      baseUrl = `${window.location.origin}/api/`
+    } else if (baseUrl.startsWith('/')) {
+      baseUrl = `${window.location.origin}${baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`}`
+    }
+  }
+
   return {
     http: {
       enabled: env.VITE_LIVE_API_ENABLED === 'true',
-      baseUrl: typeof env.VITE_API_BASE_URL === 'string' ? env.VITE_API_BASE_URL : '',
-      route: typeof env.VITE_API_ROUTE === 'string' ? env.VITE_API_ROUTE : '',
-      queryParameter: typeof env.VITE_API_QUERY_PARAMETER === 'string' ? env.VITE_API_QUERY_PARAMETER : 'q',
+      baseUrl,
+      route: typeof env.VITE_API_ROUTE === 'string' && env.VITE_API_ROUTE ? env.VITE_API_ROUTE : 'search',
+      queryParameter: typeof env.VITE_API_QUERY_PARAMETER === 'string' && env.VITE_API_QUERY_PARAMETER ? env.VITE_API_QUERY_PARAMETER : 'q',
       timeoutMs: Number(env.VITE_API_TIMEOUT_MS) || 8000,
     },
   }
