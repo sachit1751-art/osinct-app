@@ -1,5 +1,5 @@
 # Osinct API workspace
-<a href="https://github.com/sachit1751-art/Audify/releases"><img src="https://img.shields.io/badge/downloads-27.5k-orange" alt="GitHub downloads"></a>
+<a href="https://github.com/sachit1751-art/Audify/releases"><img src="https://img.shields.io/badge/downloads-27.5k-green" alt="GitHub downloads"></a>
 
 
 
